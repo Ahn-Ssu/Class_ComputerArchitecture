@@ -61,7 +61,10 @@ Exit:   # 구현 생략
 sll     $t1, $s3, 2
 add		$t1, $t1, $s6		# $t1 = $t1 + $s6
 lw		$t0, 0($t1)		# 
-addi	$s5, $s5, 1			# $s5 = $s5 + 1 // 연산 조건식에 맞지 않음 
+addi	$s5, $s5, 1			# $s5 = $s5 + 1 // !!!!! 조건식을 먼저 체크해야하는데 내부를 먼저 실행함  
 beq		$t0, $s5, loop 	# if $t0 == $s5 then loop
 # 동일한 경우로 코드를 짜면 증가연산을 할 곳이 애매함...
 
+# IndexOutOfBounds
+sltu    $t0, $s1, $t2       #t0 = 0 if $s1 >= length or $s1 <0 
+beq		$t0, $zero, IndexOutOfBounds	# if $t0 == $zero then IndexOutOfBounds
