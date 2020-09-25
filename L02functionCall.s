@@ -69,7 +69,7 @@ C_code:
 strcpy:
 addi	$sp, $sp, -4			# $sp = $sp + -4
 sw		$s0, 0($sp)		# 
-add		$s0,, $zero, $zero		# $s0, = $zero + $zero
+add		$s0, $zero, $zero		# $s0, = $zero + $zero
 L1:
 add		$t1, $s0, $a1		# $t1 = $s0 + $a1
 lbu     $t2, 0($t1)    
