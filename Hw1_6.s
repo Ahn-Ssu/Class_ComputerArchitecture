@@ -21,9 +21,6 @@ addi	$s0, $s0, 1			# $s0 = $s0 + 1 // i++
 bne		$a1, $s0, forLoop	# if $a1 != $s0 then forLoop // i != n 이 참인 경우 for-statement 지속 
 # end of for-statement
 addi	$v0, $zero, -1			# $v0 = $zero + -1 
-# lw		$s0, 0($sp)		# 
-# addi	$sp, $sp, 4			# $sp = $sp + 4
-# jr		$ra					# jump to $ra
 j		exitFind				# jump to exitFind
 # (a[i]==x) return i;
 findTarget:

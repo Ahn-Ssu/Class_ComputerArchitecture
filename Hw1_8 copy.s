@@ -34,11 +34,11 @@
 
 .data
 str1: 
-    .asciiz "Handong Global "
+    .asciiz "Handong Global  " 
 str2: 
-    .asciiz "University"
-results: 
-    .asciiz "results: "
+    .asciiz "abcdefg"
+result: 
+    .space 200
 newline: 
     .asciiz "\n"
 
@@ -46,18 +46,21 @@ newline:
 main:
 la		$a0, str1
 la    $a1, str2
+la		$a2,result	# 
+
 
 
 # li		$v0, 4		# $v0 = 4
-# la		$a0, results 		# 
+# la		$a0, result 		# 
 # syscall
 
 jal		strcat				# jump to strcat and save position to $ra
 
 
 li		$v0, 4		  
-# add		$a0, $v1, $zero	
-# la  $a0,  0($v1)
+la		$a0, result		# 
+
+# la  $a0,  str2
 syscall
 
 li		$v0, 10		
@@ -67,20 +70,30 @@ syscall
 
 strcat:
 # add		$t2, $zero, $zero		# $t2 = $tzero+ $zero // i 처럼 이동시킬 변수 
-add		$t0, $a0, $zero		# pDest 시작부터  // pDest = dest;
+addi	$sp, $sp, -8			# $sp = $sp + -8
+sw		$s0, 0($sp)		# 
+sw		$s1, 0($sp)		# 
+add		$s0, $zero, $zero		# $0 = $zero + $zero
+add		$s1, $zero, $zero		# $s1 = $zero + $zero
 loop1:
-lbu     $t3, 0($t0)         # *pDest
-addi	$t0, $t0, 1			# $t0 = $t0 + 1 // byte ++ :  pDest = pDest +1;
+add		$t4, $a2, $s0		# $t4 = $a3 + $s0
+add		$t0, $a0, $s0		# pDest 시작부터  // pDest = dest;
+lbu   $t3, 0($t0)         # *pDest
+sb		$t3, 0($t4)
+addi	$s0, $s0, 1			# $t0 = $t0 + 1 // byte ++ :  pDest = pDest +1;
 bne		$t3, $zero, loop1	# if $t3 != $zero then loop1  // while(*pDest !='\0')
-add		$t1, $a1, $zero		# pSrc 시작부터 // pSrc = src;
-addi	$t0, $t0, -1			# $t0 = $t0 + -1
+add		$s1, $zero, $zero		# $s1 = $zero + $zero
+addi	$s0, $s0, -1			# $s0 = $s0 + -1
+
 loop2:
+add		$t4, $a2, $s0		# pDest 시작부터  // pDest = dest;
+add		$t1, $a1, $s1		# pSrc 시작부터 // pSrc = src;
 lbu   $t3, 0($t1)         # *pSrc
-sb		$t3, 0($t0)		    # *pDest = *pSrc; 
+sb		$t3, 0($t4)		    # *pDest = *pSrc; 
 beq		$t3, $zero, exitStr # if $t3 == $zero then exitStr // *pSrc !='\0'
-addi	$t0, $t0, 1			# $t0 = $t0 + 1 // pDest = pDest +1;
-addi	$t1, $t1, 1			# $t0 = $t0 + 1 // pSrc = pSrc +1 ;
+addi	$s0, $s0, 1			# $t0 = $t0 + 1 // pDest = pDest +1;
+addi	$s1, $s1, 1			# $t0 = $t0 + 1 // pSrc = pSrc +1 ;
 j		loop2				# jump to loop2 // 탈출 못해서 loop
 exitStr:
-add		$v1, $a0, $zero		# $v0 = $a0 + $zero
+add		$v1, $a2, $zero		# $v0 = $a0 + $zero
 jr		$ra					# jump to $ra

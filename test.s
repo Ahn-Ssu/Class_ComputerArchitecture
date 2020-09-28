@@ -11,9 +11,11 @@ main:
   lw  $t1, 4($s1)
   lw  $t2, 8($s1)
   lw  $t3, 12($s1)
+  	
+  
 
   li  $v0, 1
-  add $a0, $t0, $t1
+  add $a0, $t2, $t3
   syscall
 
   li  $v0, 4
@@ -23,4 +25,6 @@ main:
   li  $v0, 1
   sub $a0, $t2, $t3
   syscall
+
+
 .end

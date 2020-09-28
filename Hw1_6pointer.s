@@ -1,13 +1,13 @@
-int find(int *a, int n, int x){
-  int *p;
+# int find(int *a, int n, int x){
+#   int *p;
 
-  for(p=&a[0]; p!=&a[n] ; p = p+1){
-    if(*p==x){
-      return (p-&a[0])/4
-    }
-  }
-  return -1; 
-}
+#   for(p=&a[0]; p!=&a[n] ; p = p+1){
+#     if(*p==x){
+#       return (p-&a[0])/4
+#     }
+#   }
+#   return -1; 
+# }
 
 # a[], n , x = a0, a1, a2 
 # a[i] = t0

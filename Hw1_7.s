@@ -1,22 +1,46 @@
-int findMax(int integerArray[], int N){
-  int max = integerArray[0];
+# int findMax(int integerArray[], int N){
+#   int max = integerArray[0];
 
-  for(int i = 0; i < N; i++){
-    if(max<integerArray[i]){
-      max = integerArray[i];
-    }
-  }
-  printf("the largest number = %d",max);
+#   for(int i = 0; i < N; i++){
+#     if(max<integerArray[i]){
+#       max = integerArray[i];
+#     }
+#   }
+#   // printf("the largest number = %d",max);
 
-  return max;
-}
+#   return max;
+# }
+.data
+array1:
+    .word 1, 3, 5, 7, 9, 8, 6, 4, 2
+N:  
+    .word 9
+newline: 
+    .asciiz "\n"
 
-integerArray[], N = a0, a1;
-max = t4;
+.text
+main:
+la		$a0, array1
+la    $t0,  N
+lw    $a1,  0($t0)
 
+jal		findMax				# jump to findMax and save position to $ra
+
+
+li		$v0, 1		# $v0 = 1   
+add		$a0, $v1, $zero		# $a0 = $s0 + $zero
+syscall
+
+li		$v0, 10		# $v0 = 1
+syscall
+
+.end
+ 
+
+findMax:
 addi	$sp, $sp, -4			# $sp = $sp + -4
 sw		$s0, 0($sp)		    # s0를 사용하기 위해서 s0 값 보존
-lw		$t4, 0($s1)		    # max를 첫번째 element로 초기화 
+lw		$t4, 0($a0)		    # max를 첫번째 element로 초기화 
 add		$s0, $s0, $zero		# 사용할 i 값도 초기화 
 forLoop:
 sll   $t0, $s0, 2       # i 값을 size에 맞게 증가
@@ -33,7 +57,7 @@ add		$t4, $t1, $zero		# $t4 = $t1 + $zero
 addi	$s0, $s0, 1			# $s0 = $s0 + 1
 j		forLoop				# jump to forLoop
 exitMax:
-add		$v0, $t4, $zero		# $v0 = $t4 + $zero // 최댓값 max를 v0 로
+add		$v1, $t4, $zero		# $v0 = $t4 + $zero // 최댓값 max를 v0 로
 lw		$s0, 0($sp)		# 
 addi	$sp, $sp, 4			# $sp = $sp + 4
 jr		$ra					# jump to $ra
