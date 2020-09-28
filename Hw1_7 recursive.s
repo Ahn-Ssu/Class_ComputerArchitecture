@@ -20,21 +20,21 @@ sw		$a0, 0($sp)		#
 slti  $t0, $a0, 2   # n < 2? -> n이 1일때 
 beq		$t0, $zero, elseCase	# if $t0 == $zero then case1
 #  n이 1 이하일때 
-lw		$v0, 0($a0)		# 
-addi	$sp, $sp, 12			# $sp = $sp + 12
-jr		$ra					# jump to $ra
+lw		$v0, 0($a0)		# integerArray[0]
+addi	$sp, $sp, 12	# $sp = $sp + 12 //  스택 복원 
+jr		$ra					  # jump to $ra
 elseCase:
 # else 문 
-addi	$a1, $a1, -1			# $a1 = $a1 + -1
+addi	$a1, $a1, -1	# $a1 = $a1 + -1 // N-1
 jal		findMax				# jump to findMax and save position to $ra
-lw		$ra, 8($sp)		# 
+lw		$ra, 8($sp)		# save point
 lw		$a1, 4($sp)		# 
 lw		$a0, 0($sp)		# 
-sll   $t0, $a1, 2
-add		$t1, $a0, $t0		# $t1 = $a0 + $t0
-addi	$t1, $t1, -4			# $t1 = $t1 + -4
-lw		$t2, 0($t1)		# 
-slt   $t3, $v0, $t2  # v = 0 return된 findMax 값(temp), t2 array의 마지막 element  (temp<a[n-1])??
+sll   $t0, $a1, 2   # n-1 번째 index에 접근하기 위한 연산 
+add		$t1, $a0, $t0	# $t1 = $a0 + $t0
+addi	$t1, $t1, -4	# $t1 = $t1 + -4 // n-1 완성 
+lw		$t2, 0($t1)		# integerArray[N-1]
+slt   $t3, $v0, $t2 # v = 0 return된 findMax 값(temp), t2 array의 마지막 element  (temp<a[n-1])??
 bne		$t3, $zero, setEndMax	# if $t3 != $zero then ???
 j		  exitMax				# jump to exitMax
 setEndMax:
